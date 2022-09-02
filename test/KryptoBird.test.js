@@ -50,4 +50,26 @@ contract('KryptoBird', (accounts) => {
             await contract.mint('https...1').should.be.rejected
         })
     })
+
+    describe('indexing', async () => {
+        it('lists KryptoBirdz', async () => {
+            // mint more
+            await contract.mint('https...2')
+            await contract.mint('https...3')
+            await contract.mint('https...4')
+            const totalSupply = await contract.totalSupply()
+
+            // loop through list, grab the NTF from the list
+            let result = []
+            let KryptoBird
+            for(i = 1; i <= totalSupply; i++) {
+                KryptoBird = await contract.kryptoBirdz(i - 1)
+                result.push(KryptoBird)
+            }
+
+            // assert with the expected result
+            let expected = ['https...1','https...2','https...3','https...4']
+            assert.equal(result.join(','), expected.join(','))
+        })
+    })
 })
