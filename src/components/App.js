@@ -32,7 +32,7 @@ class App extends Component {
 
     // get the connnected account
     const accounts = await web3.eth.getAccounts();
-    this.setState({account:accounts})
+    this.setState({account:accounts[0]})
 
     // access blockchain network ID
     const networkId = await web3.eth.net.getId()
@@ -42,21 +42,44 @@ class App extends Component {
       const abi = KrytoBird.abi
       const address = networkData.address
       const contract = new web3.eth.Contract(abi, address)
-      console.log(contract)
+      this.setState({contract})
+
+      // call totalSupply
+      const totalSupply = await contract.methods.totalSupply().call()
+      this.setState({totalSupply})
+      
+      // track tokens - load Kryptobirdz array []
+      for(let i = 1; i <= totalSupply; i++) {
+        const KryptoBird = await contract.methods.kryptoBirdz(i-1).call()
+        this.setState({kryptoBirdz:[...this.state.kryptoBirdz, KryptoBird]})
+      }
+    } else {
+      window.alert('Smart contract not deployed')
     }
+  }
+
+  // access mint function
+  mint = (kryptoBird) => {
+    this.state.contract.methods.mint(kryptoBird).send({from:this.state.account})
+    .once('receipt', (receipt) => {
+      this.setState({kryptoBirdz:[...this.state.kryptoBirdz, kryptoBird]})
+    })
   }
 
   // set the state
   constructor(props) {
     super(props);
     this.state = {
-      account: ''
+      account:'',
+      contract:null,
+      totalSupply:0,
+      kryptoBirdz:[]
     }
   }
 
   render() {
     return(
-      <div>
+      <div>        
         <nav className="navbar navbar-dark bg-dark fixed-top flex-md-nowrap p-0 shadow">
           <div className="navbar-brand col-sm-3 col-md-3 mr-0" style={{color:'white'}}>
             CHON NFTs (Non Fungible Tokens)
@@ -69,6 +92,31 @@ class App extends Component {
             </li>
           </ul>
         </nav>
+
+        <div className="container-fluid mt-1">
+          <main role='main' className="col-lg-12 d-flex text-center">
+            <div className="content mr-auto ml-auto" style={{opacity:'0.8'}}>
+              <h1 style={{color:'white'}}>CHON - NFT Marketplace</h1>
+              <form onSubmit={(event)=>{
+                event.preventDefault()
+                const kryptoBird = this.kryptoBird.value
+                this.mint(kryptoBird)
+              }}>
+                <input
+                type='text'
+                placeholder='File location'
+                className='form-control mb-1'
+                ref={(input)=>this.kryptoBird = input}
+                />
+                <input style={{margin:'6px'}}
+                type='submit'
+                className="btn btn-primary btn-black"
+                value='MINT'/>
+              </form>
+              {console.log(this.state.kryptoBirdz)}
+            </div>
+          </main>
+        </div>
       </div>
     )
   }
