@@ -4,6 +4,7 @@ import Web3 from "web3";
 import detectEthereumProvider from "@metamask/detect-provider";
 import KrytoBird from '../abis/KryptoBird.json';
 
+import {MDBRow, MDBCol, MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardImage, MDBBtn, MDBContainer} from 'mdb-react-ui-kit';
 import './App.css';
 
 class App extends Component {
@@ -62,7 +63,7 @@ class App extends Component {
   mint = (kryptoBird) => {
     this.state.contract.methods.mint(kryptoBird).send({from:this.state.account})
     .once('receipt', (receipt) => {
-      this.setState({kryptoBirdz:[...this.state.kryptoBirdz, kryptoBird]})
+      this.setState({kryptoBirdz:[...this.state.kryptoBirdz, this.KryptoBird]})
     })
   }
 
@@ -79,7 +80,7 @@ class App extends Component {
 
   render() {
     return(
-      <div>        
+      <div className="container-filled">        
         <nav className="navbar navbar-dark bg-dark fixed-top flex-md-nowrap p-0 shadow">
           <div className="navbar-brand col-sm-3 col-md-3 mr-0" style={{color:'white'}}>
             CHON NFTs (Non Fungible Tokens)
@@ -94,28 +95,48 @@ class App extends Component {
         </nav>
 
         <div className="container-fluid mt-1">
-          <main role='main' className="col-lg-12 d-flex text-center">
-            <div className="content mr-auto ml-auto" style={{opacity:'0.8'}}>
-              <h1 style={{color:'white'}}>CHON - NFT Marketplace</h1>
-              <form onSubmit={(event)=>{
-                event.preventDefault()
-                const kryptoBird = this.kryptoBird.value
-                this.mint(kryptoBird)
-              }}>
-                <input
-                type='text'
-                placeholder='File location'
-                className='form-control mb-1'
-                ref={(input)=>this.kryptoBird = input}
-                />
-                <input style={{margin:'6px'}}
-                type='submit'
-                className="btn btn-primary btn-black"
-                value='MINT'/>
-              </form>
-              {console.log(this.state.kryptoBirdz)}
-            </div>
-          </main>
+          <div className="row">
+            <main role='main' className="col-lg-12 d-flex text-center" style={{opacity:'0.8', justifyContent:'center'}}>
+              <div className="content mr-auto ml-auto">
+                <h1 style={{color:'white'}}>CHON - NFT Marketplace</h1>
+                <form onSubmit={(event)=>{
+                  event.preventDefault()
+                  const kryptoBird = this.kryptoBird.value
+                  this.mint(kryptoBird)
+                }}>
+                  <input
+                  type='text'
+                  placeholder='File location'
+                  className='form-control mb-1'
+                  ref={(input)=>this.kryptoBird = input}
+                  />
+                  <input style={{margin:'6px'}}
+                  type='submit'
+                  className="btn btn-primary btn-black"
+                  value='MINT'/>
+                </form>
+              </div>
+            </main>
+          </div>
+          <hr></hr>
+          <MDBContainer>
+            <MDBRow start>
+              {this.state.kryptoBirdz.map((kryptoBird, key)=>{
+                return(
+                  <MDBCol size='auto' className='mr-auto'>
+                      <MDBCard className="token img" style={{maxWidth:'22rem'}}>
+                        <MDBCardImage src={kryptoBird} position='top' height='250rem' style={{marginRight:'4px'}}/>
+                        <MDBCardBody>
+                          <MDBCardTitle>CHON NFTs</MDBCardTitle>
+                          <MDBCardText>The CHON NFTs, 8 unique non-fungible tokens representing as membership keys to the CHON's metaverse.</MDBCardText>
+                          <MDBBtn href={kryptoBird}>Download</MDBBtn>
+                        </MDBCardBody>
+                      </MDBCard>
+                  </MDBCol>
+                )
+              })}
+            </MDBRow>
+          </MDBContainer>
         </div>
       </div>
     )

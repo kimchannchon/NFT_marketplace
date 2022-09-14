@@ -16648,12 +16648,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x531CecA09f5A049b474fC185529A969883B9d0F1",
-      "transactionHash": "0x64c96c098c1a0554c28a98e959a69f8d0200fe91947538e4e489d68a08561c7f"
+      "address": "0x60A43c493F5dfdD28d954eC76A395f5eAFC790bD",
+      "transactionHash": "0x03aa907a3408a9916601cecbe076960372d794329d2e532544110d5ed02a7523"
     }
   },
   "schemaVersion": "3.4.7",
-  "updatedAt": "2022-09-01T23:37:15.383Z",
+  "updatedAt": "2022-09-13T23:07:57.800Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
