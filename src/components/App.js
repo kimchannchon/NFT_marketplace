@@ -50,9 +50,9 @@ class App extends Component {
       this.setState({totalSupply})
       
       // track tokens - load Kryptobirdz array []
-      for(let i = 1; i <= totalSupply; i++) {
+      for(let i=1; i<=totalSupply; i++) {
         const KryptoBird = await contract.methods.kryptoBirdz(i-1).call()
-        this.setState({kryptoBirdz:[...this.state.kryptoBirdz, KryptoBird]})
+        this.setState({kryptoBirdz:[...new Set(this.state.kryptoBirdz), KryptoBird]})
       }
     } else {
       window.alert('Smart contract not deployed')
@@ -80,13 +80,19 @@ class App extends Component {
 
   render() {
     return(
-      <div className="container-filled">        
-        <nav className="navbar navbar-dark bg-dark fixed-top flex-md-nowrap p-0 shadow">
-          <div className="navbar-brand col-sm-3 col-md-3 mr-0" style={{color:'white'}}>
-            CHON NFTs (Non Fungible Tokens)
-          </div>
-          <ul className="navbar-nav px-3">
-            <li className="nav-item text-nowrap d-block">
+      <div className="container-filled">
+        {console.log(this.state.kryptoBirdz)}        
+        <nav className="navbar fixed-top flex-md-nowrap justify-content-between">
+          <a className="navbar-brand p-0" href="#" style={{alignSelf:'center'}}>
+            <img src="https://aikimchann.files.wordpress.com/2022/06/cropped-logo-kimchannchon.png?w=240"
+            style={{maxWidth:'4rem', marginLeft:'7rem'}} alt="CHON logo"/>
+          </a>
+          <ul className="nav nav-tabs" style={{marginRight:'3rem'}}>
+            <li className="nav-item p-0" href="#">          
+              <img className="network-logo" src="https://w7.pngwing.com/pngs/268/1013/png-transparent-ethereum-eth-hd-logo-thumbnail.png"
+              style={{maxWidth:'2rem', borderRadius:'50%', alignSelf:'center', marginBottom:'.5rem'}} alt="ETHEREUM logo"/>              
+            </li>
+            <li className="nav-item text-nowrap d-block" style={{marginLeft:'.5rem', alignSelf:'center'}}>
               <small className="text-white">
                 {this.state.account}
               </small>
@@ -96,9 +102,9 @@ class App extends Component {
 
         <div className="container-fluid mt-1">
           <div className="row">
-            <main role='main' className="col-lg-12 d-flex text-center" style={{opacity:'0.8', justifyContent:'center'}}>
+            <main role='main' className="col-lg-12 d-flex text-center" style={{opacity:'0.9', justifyContent:'center'}}>
               <div className="content mr-auto ml-auto">
-                <h1 style={{color:'white'}}>CHON - NFT Marketplace</h1>
+                <h2 className="site-title">NFT MARKETPLACE</h2>                
                 <form onSubmit={(event)=>{
                   event.preventDefault()
                   const kryptoBird = this.kryptoBird.value
@@ -115,20 +121,30 @@ class App extends Component {
                   className="btn btn-primary btn-black"
                   value='MINT'/>
                 </form>
+                <hr></hr>
+                <div class="container-fluid text-center" style={{width:'8.5rem', height:'5rem', justifyContent:'center', opacity:'0.9'}}>
+                  <div class="card-body" style={{marginTop:'1rem'}}>                    
+                    <p class="card-text">Total Supply</p>
+                    <h5 class="card-title" style={{color:'rgb(115, 0, 255)'}}>{this.state.totalSupply}/99</h5>
+                  </div>
               </div>
+              </div>
+              
             </main>
+            
           </div>
+          
           <hr></hr>
           <MDBContainer>
-            <MDBRow start>
+            <MDBRow>
               {this.state.kryptoBirdz.map((kryptoBird, key)=>{
                 return(
-                  <MDBCol size='auto' className='mr-auto'>
-                      <MDBCard className="token img" style={{maxWidth:'22rem'}}>
-                        <MDBCardImage src={kryptoBird} position='top' height='250rem' style={{marginRight:'4px'}}/>
+                  <MDBCol size='auto'>
+                      <MDBCard className="token img" style={{maxWidth:'15rem', marginLeft:'5px'}}>
+                        <MDBCardImage src={kryptoBird} position='top' height='200rem'/>
                         <MDBCardBody>
                           <MDBCardTitle>CHON NFTs</MDBCardTitle>
-                          <MDBCardText>The CHON NFTs, 8 unique non-fungible tokens representing as membership keys to the CHON's metaverse.</MDBCardText>
+                          <MDBCardText>The CHON NFTs, 999 unique non-fungible tokens representing membership keys to the CHON's metaverse.</MDBCardText>
                           <MDBBtn href={kryptoBird}>Download</MDBBtn>
                         </MDBCardBody>
                       </MDBCard>
