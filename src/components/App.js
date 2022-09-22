@@ -52,8 +52,8 @@ class App extends Component {
       // track tokens - load Kryptobirdz array []
       for(let i=1; i<=totalSupply; i++) {
         const KryptoBird = await contract.methods.kryptoBirdz(i-1).call()
-        this.setState({kryptoBirdz:[...new Set(this.state.kryptoBirdz), KryptoBird]})
-      }
+        this.setState({kryptoBirdz:[...new Set(this.state.kryptoBirdz), KryptoBird]})        
+      }      
     } else {
       window.alert('Smart contract not deployed')
     }
@@ -88,7 +88,7 @@ class App extends Component {
             style={{maxWidth:'4rem', marginLeft:'7rem'}} alt="CHON logo"/>
           </a>
           <ul className="nav nav-tabs" style={{marginRight:'3rem'}}>
-            <li className="nav-item p-0" href="#">          
+            <li className="nav-item p-0">          
               <img className="network-logo" src="https://w7.pngwing.com/pngs/268/1013/png-transparent-ethereum-eth-hd-logo-thumbnail.png"
               style={{maxWidth:'2rem', borderRadius:'50%', alignSelf:'center', marginBottom:'.5rem'}} alt="ETHEREUM logo"/>              
             </li>
@@ -122,10 +122,10 @@ class App extends Component {
                   value='MINT'/>
                 </form>
                 <hr></hr>
-                <div class="container-fluid text-center" style={{width:'8.5rem', height:'5rem', justifyContent:'center', opacity:'0.9'}}>
-                  <div class="card-body" style={{marginTop:'1rem'}}>                    
-                    <p class="card-text">Total Supply</p>
-                    <h5 class="card-title" style={{color:'rgb(115, 0, 255)'}}>{this.state.totalSupply}/99</h5>
+                <div className="container-fluid text-center" style={{width:'8.5rem', height:'5rem', justifyContent:'center', opacity:'0.9'}}>
+                  <div className="card-body" style={{marginTop:'1rem'}}>                    
+                    <p className="card-text">Total Supply</p>
+                    <h5 className="card-title" style={{color:'rgb(115, 0, 255)'}}>{this.state.totalSupply}/999</h5>
                   </div>
               </div>
               </div>
@@ -136,12 +136,12 @@ class App extends Component {
           
           <hr></hr>
           <MDBContainer>
-            <MDBRow>
+            <MDBRow center>
               {this.state.kryptoBirdz.map((kryptoBird, key)=>{
                 return(
                   <MDBCol size='auto'>
                       <MDBCard className="token img" style={{maxWidth:'15rem', marginLeft:'5px'}}>
-                        <MDBCardImage src={kryptoBird} position='top' height='200rem'/>
+                        <MDBCardImage src={kryptoBird} position='top' height='200rem' style={{backgroundSize:'contain', backgroundPosition:'center'}}/>
                         <MDBCardBody>
                           <MDBCardTitle>CHON NFTs</MDBCardTitle>
                           <MDBCardText>The CHON NFTs, 999 unique non-fungible tokens representing membership keys to the CHON's metaverse.</MDBCardText>
